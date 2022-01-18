@@ -69,4 +69,19 @@ public class UserController {
         userDetailsRepository.save(userDetails);
         return new ResponseEntity<>("User Courses Added Successfully", HttpStatus.OK);
     }
+
+    @DeleteMapping("/user-courses")
+    public @ResponseBody
+    ResponseEntity<Object> deleteUserCourse(@RequestParam("course_name") String courseName,
+                                            @RequestParam("username") String username) {
+        User userByUsername = userRepository.findByUsername(username);
+        List<UserDetails> userDetailsList = userDetailsRepository.findByUser(userByUsername);
+        UserDetails userDetails = userDetailsList.stream().filter(el -> el.getCourseName().equalsIgnoreCase(courseName)).findFirst().orElse(null);
+        if (userDetails == null) {
+            return new ResponseEntity<>("Course Not Present", HttpStatus.BAD_REQUEST);
+        }
+        userDetails.setUser(null);
+        userDetailsRepository.delete(userDetails);
+        return new ResponseEntity<>("User Courses Deleted Successfully", HttpStatus.OK);
+    }
 }
