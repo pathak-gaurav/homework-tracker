@@ -50,11 +50,30 @@ public class UserController {
     @PostMapping("/user")
     public @ResponseBody
     ResponseEntity<Object> createUser(@RequestBody User user) {
-        if (user.getEmail() == null || user.getUsername() == null || user.getToken() == null) {
+        if (userInputDataCheck(user))
             return new ResponseEntity<>("Email, Username, Password are required", HttpStatus.BAD_REQUEST);
-        }
         userRepository.save(user);
         return new ResponseEntity<>("User Added Successfully", HttpStatus.OK);
+    }
+
+    private boolean userInputDataCheck(@RequestBody User user) {
+        if (user.getEmail() == null || user.getUsername() == null || user.getToken() == null) {
+            return true;
+        }
+        return false;
+    }
+
+    @PutMapping("/user")
+    public @ResponseBody
+    ResponseEntity<Object> updateUser(@RequestBody User user) {
+        User tempUser = userRepository.findByUsername(user.getUsername());
+        tempUser.setEmail(user.getEmail());
+        tempUser.setFirstName(user.getFirstName());
+        tempUser.setLastName(user.getLastName());
+        tempUser.setToken(user.getToken());
+        tempUser.setUsername(user.getUsername());
+        userRepository.save(tempUser);
+        return new ResponseEntity<>("User Modified Successfully", HttpStatus.OK);
     }
 
     @PostMapping("/user-courses")
