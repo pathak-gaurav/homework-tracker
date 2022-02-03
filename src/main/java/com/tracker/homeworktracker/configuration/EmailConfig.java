@@ -26,6 +26,7 @@ public class EmailConfig {
     }
 
     @Scheduled(fixedDelay = 5000)
+//    @Scheduled(cron = "0 0 0 ? * * *")
     public void scheduleFixedDelayTask() {
         List<UserDetails> assignmentPending = userDetailsRepository.findAssignmentPending();
         assignmentPending.stream().forEach(element -> {
@@ -38,7 +39,7 @@ public class EmailConfig {
                 message.setTo(toEmail);
                 message.setSubject("Assignment Pending for "+courseName);
                 message.setText("Assignment Pending for "+courseName +", Due date is "+element.getAssignmentPendingDate());
-                //mailSender.send(message);
+                mailSender.send(message);
             }
         });
     }

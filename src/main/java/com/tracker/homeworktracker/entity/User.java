@@ -21,6 +21,9 @@ public class User {
     private Long userId;
     private String firstName;
     private String lastName;
+    private String address;
+    private String mobile;
+    private String department;
     @Column(unique=true)
     private String email;
     @Column(unique=true)

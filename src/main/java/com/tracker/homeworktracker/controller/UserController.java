@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     private UserRepository userRepository;
@@ -33,6 +34,18 @@ public class UserController {
             return new ResponseEntity<>("User Not Found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(userByUsername, HttpStatus.OK);
+    }
+
+    @GetMapping("/login")
+    public @ResponseBody
+    ResponseEntity<Object> login(@RequestParam("username") String username,
+                                 @RequestParam("password") String password) {
+        User loginUser = userRepository.findByUsernameAndToken(username, password);
+        if (loginUser != null) {
+            return new ResponseEntity<>(loginUser, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Username and Password Invalid", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/find-user-courses")
@@ -84,6 +97,11 @@ public class UserController {
             return new ResponseEntity<>("Course Name and Date Cannot be Empty", HttpStatus.BAD_REQUEST);
         }
         User userByUsername = userRepository.findByUsername(username);
+        List<AssignmentPending> assignmentPendingList = userService.findUserCourses(userByUsername);
+        boolean present = assignmentPendingList.stream().filter(element -> element.getCourseName().equalsIgnoreCase(userDetails.getCourseName())).findAny().isPresent();
+        if(present){
+            return new ResponseEntity<>("Course Name already exist", HttpStatus.BAD_REQUEST);
+        }
         userDetails.setUser(userByUsername);
         userDetailsRepository.save(userDetails);
         return new ResponseEntity<>("User Courses Added Successfully", HttpStatus.OK);
@@ -91,7 +109,7 @@ public class UserController {
 
     @DeleteMapping("/user-courses")
     public @ResponseBody
-    ResponseEntity<Object> deleteUserCourse(@RequestParam("course_name") String courseName,
+    ResponseEntity<Object> deleteUserCourse(@RequestParam("courseName") String courseName,
                                             @RequestParam("username") String username) {
         User userByUsername = userRepository.findByUsername(username);
         List<UserDetails> userDetailsList = userDetailsRepository.findByUser(userByUsername);

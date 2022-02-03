@@ -32,10 +32,11 @@ public class HomeworkTrackerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //Saving Data in Different Tables
-        User userDrake = new User("Drake", "Bell", "drake.bell@gmail.com",
+        User userDrake = new User("Drake", "Bell", "bombz124@gmail.com",
                 "drake.bell", "qwerty@12345");
-        User userJohn = new User("John", "Ross", "john.ross@gmail.com",
+        User userJohn = new User("John", "Ross", "yugchampaneria123@gmail.com",
                 "john.ross", "qwerty@12345");
+//        bombz124@gmail.com
         ArrayList<UserDetails> userDetailsListDrake = new ArrayList<>(Arrays.asList(new UserDetails("Science"),
                 new UserDetails("Maths"), new UserDetails("English")));
         List<UserDetails> userDetails = userDetailsRepository.saveAll(userDetailsListDrake);
