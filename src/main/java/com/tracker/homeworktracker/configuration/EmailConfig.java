@@ -25,7 +25,7 @@ public class EmailConfig {
         this.userDetailsRepository = userDetailsRepository;
     }
 
-    @Scheduled(fixedDelay = 5000)
+    //@Scheduled(fixedDelay = 5000)
 //    @Scheduled(cron = "0 0 0 ? * * *")
     public void scheduleFixedDelayTask() {
         List<UserDetails> assignmentPending = userDetailsRepository.findAssignmentPending();
