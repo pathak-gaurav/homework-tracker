@@ -26,6 +26,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @CrossOrigin
     @GetMapping("/find-user")
     public @ResponseBody
     ResponseEntity<Object> findUser(@RequestParam("username") String username) {
@@ -36,6 +37,7 @@ public class UserController {
         return new ResponseEntity<>(userByUsername, HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("/login")
     public @ResponseBody
     ResponseEntity<Object> login(@RequestParam("username") String username,
@@ -48,6 +50,7 @@ public class UserController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/find-user-courses")
     public @ResponseBody
     ResponseEntity<Object> findUserCourses(@RequestParam("username") String username) {
@@ -60,6 +63,7 @@ public class UserController {
     }
 
 
+    @CrossOrigin
     @PostMapping("/user")
     public @ResponseBody
     ResponseEntity<Object> createUser(@RequestBody User user) {
@@ -76,6 +80,7 @@ public class UserController {
         return false;
     }
 
+    @CrossOrigin
     @PutMapping("/user")
     public @ResponseBody
     ResponseEntity<Object> updateUser(@RequestBody User user) {
@@ -89,6 +94,7 @@ public class UserController {
         return new ResponseEntity<>("User Modified Successfully", HttpStatus.OK);
     }
 
+    @CrossOrigin
     @PostMapping("/user-courses")
     public @ResponseBody
     ResponseEntity<Object> addUserCourses(@RequestBody UserDetails userDetails,
@@ -107,6 +113,7 @@ public class UserController {
         return new ResponseEntity<>("User Courses Added Successfully", HttpStatus.OK);
     }
 
+    @CrossOrigin
     @DeleteMapping("/user-courses")
     public @ResponseBody
     ResponseEntity<Object> deleteUserCourse(@RequestParam("courseName") String courseName,
