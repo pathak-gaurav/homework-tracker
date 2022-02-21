@@ -8,6 +8,7 @@ import com.tracker.homeworktracker.repository.UserRepository;
 import com.tracker.homeworktracker.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,12 +70,18 @@ public class UserController {
     ResponseEntity<Object> createUser(@RequestBody User user) {
         if (userInputDataCheck(user))
             return new ResponseEntity<>("Email, Username, Password are required", HttpStatus.BAD_REQUEST);
+        if(userRepository.findByUsername(user.getUsername())!=null){
+            return new ResponseEntity<>("Username already exist", HttpStatus.BAD_REQUEST);
+        }
+        if(userRepository.findByEmail(user.getEmail())!=null){
+            return new ResponseEntity<>("Email already exist", HttpStatus.BAD_REQUEST);
+        }
         userRepository.save(user);
-        return new ResponseEntity<>("User Added Successfully", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     private boolean userInputDataCheck(@RequestBody User user) {
-        if (user.getEmail() == null || user.getUsername() == null || user.getToken() == null) {
+        if (StringUtils.isEmpty(user.getEmail())|| StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getToken())) {
             return true;
         }
         return false;

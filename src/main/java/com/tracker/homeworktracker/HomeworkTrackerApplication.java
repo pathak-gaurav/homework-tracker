@@ -38,7 +38,7 @@ public class HomeworkTrackerApplication implements CommandLineRunner {
         User userDrake = new User("Drake", "Bell", "drakebell@gmail.com",
                 "drake.bell", "qwerty@12345");
         User userJohn = new User("John", "Ross", "johnross@gmail.com",
-                "john.ross", "qwerty@12345");
+                "abc", "abc");
         userDrake.setAddress("1765, West End Street, Toronto Ontario");
         userDrake.setDepartment("Computer Science Engineering");
         userDrake.setMobile("+1-0862576571");
